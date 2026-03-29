@@ -1,71 +1,68 @@
-# 📦 Smart Warehouse Scanner (Mobile-to-Cloud)
+# 💰 Automated Debt Collector (Le Relanceur Automatique)
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge&logo=python&logoColor=white) 
-![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
-![OpenCV](https://img.shields.io/badge/OpenCV-Vision-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-Data_Analysis-150458?style=for-the-badge&logo=pandas&logoColor=white) 
+![PDF](https://img.shields.io/badge/FPDF-Document_Gen-darkred?style=for-the-badge)
 
 ## 📋 Overview
-The **Smart Warehouse Scanner** is a lightweight, mobile-friendly web application designed for factory floor workers. It eliminates paper-based inventory tracking by turning any standard smartphone into an enterprise-grade barcode and QR code scanner.
+The **Automated Debt Collector** is a financial automation pipeline built for B2B logistics and manufacturing companies. 
 
-Instead of buying expensive proprietary hardware, workers simply open a local web link on their phones, scan a product, enter the quantity, and the system instantly updates the master centralized database (Excel/SQL) in real-time.
+Managing unpaid invoices at the end of the month is traditionally a slow, manual process prone to human error. This tool acts as a "Digital Accountant." It scans a master accounting ledger (Excel), instantly identifies clients with outstanding balances, generates highly professional PDF account statements, and dispatches targeted email reminders—reducing a 3-day accounting task to a 5-second script.
 
 ## 🚀 Key Features
-* **📱 Bring Your Own Device (BYOD):** Runs entirely in the smartphone's web browser via Streamlit. No app store installation required.
-* **📷 Real-Time Computer Vision:** Utilizes `pyzbar` and `OpenCV` to instantly decode barcodes and QR codes from the device's live camera feed.
-* **⚡ Instant Synchronization:** Eliminates end-of-day data entry. When a worker taps "Update," the central inventory ledger is updated in milliseconds.
-* **👷 Worker-Proof UI:** Designed for high-speed industrial environments. Large buttons, dark mode compatibility, and zero complex menus.
+* **🧠 Smart Ledger Parsing:** Utilizes Pandas to ingest massive Excel files and filter clients based on payment status (`Impayée`).
+* **📄 Automated PDF Generation:** Uses the FPDF library to dynamically draw clean, printable "Relevé de Compte" (Statement of Account) tables for each indebted client.
+* **✉️ Email Dispatch Engine:** Features a built-in SMTP module to automatically attach the correct PDF and send a customized reminder email to the specific client's accounting department.
+* **🛡️ Local Execution:** Processes sensitive financial data entirely locally, ensuring zero data leakage to third-party cloud services.
 
 ## 🛠️ Technical Stack
-* **Frontend/Backend Engine:** Streamlit (Python)
-* **Computer Vision:** OpenCV (`opencv-python-headless`) & PyZbar
-* **Data Management:** Pandas & Openpyxl
-* **Networking:** Local Area Network (LAN) binding for mobile access
+* **Language:** Python 3.12
+* **Data Engine:** Pandas & Openpyxl
+* **Document Engine:** FPDF
+* **Automation:** Standard Python `os` and `smtplib`
 
 ## 📂 Project Structure
 | File | Description |
 | :--- | :--- |
-| `app.py` | The main Streamlit web application and UI layout. |
-| `scanner_engine.py` | The backend logic for decoding images and reading barcodes. |
-| `database.py` | Handles reading and writing to the master `inventory.xlsx` file. |
-| `inventory.xlsx` | The simulated master ledger containing stock levels. |
-| `requirements.txt` | Python dependencies. |
+| `auto_relance.py` | The core engine: reads data, draws PDFs, and triggers the email pipeline. |
+| `generate_ledger.py` | A script to create a randomized `comptabilite.xlsx` ledger with Moroccan market data for safe testing. |
+| `comptabilite.xlsx` | The master Excel ledger (generated for testing). |
+| `Output_PDFs/` | The destination folder where generated PDF statements are saved. |
+| `.gitignore` | Ensures generated PDFs and secure `.env` files stay off public repositories. |
 
 ## ⚙️ Setup & Installation
 
 ### 1. Initialize the Environment
 ```bash
-git clone https://github.com/El-walid/smart-warehouse-scanner.git
-cd smart-warehouse-scanner
+git clone https://github.com/El-walid/automated-debt-collector.git
+cd automated-debt-collector
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 2. Install System Dependencies
-*Note: PyZbar requires the ZBar library to be installed on your operating system.*
-* **Ubuntu/WSL:** `sudo apt-get install libzbar0`
-* **Windows/Mac:** Automatically handled via pip in most environments.
-
-### 3. Install Python Libraries
+### 2. Install Dependencies
 ```bash
-pip install -r requirements.txt
+pip install pandas fpdf openpyxl
 ```
 
-## 🏃‍♂️ How to Run & Demo on Mobile
+## 🏃‍♂️ How to Run & Demo
 
-To demo this software to a client, you need to host it on your laptop and access it via your smartphone on the same Wi-Fi network.
-
-**1. Start the Server**
-Run the Streamlit app and bind it to your local network:
+**Step 1: Generate Mock Data**
+If you are testing the system, generate a fresh ledger of 100 simulated B2B invoices.
 ```bash
-streamlit run app.py --server.address 0.0.0.0
+python generate_ledger.py
 ```
 
-**2. Access via Smartphone**
-* The terminal will output a **Network URL** (e.g., `http://192.168.1.15:8501`).
-* Open Safari or Chrome on your phone.
-* Type that exact IP address into the search bar.
-* Grant camera permissions, point your phone at a barcode, and watch the master ledger update on your laptop screen!
+**Step 2: Run the Relance Pipeline**
+Execute the master script. The terminal will show the AI identifying debtors, generating the PDFs, and simulating the email dispatch.
+```bash
+python auto_relance.py
+```
+*Check the `Output_PDFs/` directory to view the generated financial statements!*
 
 ## 👨‍💻 Author
 **El Walid El Alaoui Fels**
+
 *Data Engineer | Automation Specialist*
+
+***
